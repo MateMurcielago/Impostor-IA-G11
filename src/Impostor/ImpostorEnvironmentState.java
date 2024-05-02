@@ -3,13 +3,13 @@ package Impostor;
 import frsf.cidisi.faia.state.EnvironmentState;
 
 public class ImpostorEnvironmentState extends EnvironmentState {
-	private int[][] mapa;
-	private int[][] estadoSala;
+	private int[] mapa;
+	private int[][] estructuraMapa;
 	private int tripulantes;
 	private int posImpostor;
 	
 	public ImpostorEnvironmentState() {
-		mapa = new int[1][1];
+		mapa = new int[1];
 		this.initState();
 	}
 	
