@@ -6,6 +6,8 @@ public class Mapa {
 	
 	public Mapa() {
 		//Crea las salas
+		this.salas = new Sala[14];
+		this.conexiones = new int[14][14];
 		salas[0] = new Sala(0, "Cafetería", false, false, 0);
 		conexiones[0][0] = 0;
 		conexiones[0][1] = 1;
@@ -216,5 +218,37 @@ public class Mapa {
 		conexiones[13][11] = 1;
 		conexiones[13][12] = 1;
 		conexiones[13][13] = 0;
+	}
+	
+	public int getIDSala(int i) {
+		return this.salas[i].getId();
+	}
+	
+	public String getNombreSala(int i) {
+		return this.salas[i].getNombre();
+	}
+	
+	public Boolean getEsSaboteableSala(int i) {
+		return this.salas[i].getEsSaboteable();
+	}
+	
+	public void setEsSaboteableSala(int i, Boolean esSaboteable) {
+		this.salas[i].setEsSaboteable(esSaboteable);
+	}
+	
+	public Boolean getFueSaboteadaSala(int i) {
+		return this.salas[i].getFueSaboteado();
+	}
+	
+	public void setFueSaboteadaSala(int i, Boolean fueSaboteado) {
+		this.salas[i].setFueSaboteado(fueSaboteado);
+	}
+	
+	public int getTripulantesSala(int i) {
+		return this.salas[i].getTripulantes();
+	}
+	
+	public void setTripulantesSalas(int i, int t) {
+		this.salas[i].setTripulantes(t);
 	}
 }

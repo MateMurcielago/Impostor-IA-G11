@@ -1,15 +1,16 @@
 package Impostor;
 
 import frsf.cidisi.faia.state.EnvironmentState;
+import Extras.*;
 
 public class ImpostorEnvironmentState extends EnvironmentState {
-	private int[] mapa;
+	private Mapa mapa;
 	private int[][] estructuraMapa;
 	private int tripulantes;
 	private int posImpostor;
 	
 	public ImpostorEnvironmentState() {
-		mapa = new int[1];
+		mapa = new Mapa();
 		this.initState();
 	}
 	
@@ -30,4 +31,6 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 		String str = "";
 		return "mondongo";
 	}
+	
+	//El resto de funciones las ire definiendo según vea
 }
