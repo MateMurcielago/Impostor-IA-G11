@@ -18,5 +18,23 @@ public class ImpostorEnvironment extends Environment {
 	@Override
 	public Perception getPercept() {
 		//Falta definir las percepciones
+		ImpostorPerception percepcion = new ImpostorPerception();
+		
+		int posicion = this.getEnvironmentState().getPosImpostor();
+		int tripulantes = this.getEnvironmentState().getTripulantesSala(posicion);
+		Boolean salaASabotear = this.getEnvironmentState().getEsSaboteableSala(posicion);
+		int[] salasAdyacentes = this.getEnvironmentState().getSalasAdyacentesSala(posicion);
+		//la percepcion global la defino más tarde
+		Boolean global = false;
+		int[] salasConTripulantes = new int[14];
+		
+		percepcion.setPosicion(posicion);
+		percepcion.setTripulantes(tripulantes);
+		percepcion.setSalaASabotear(salaASabotear);
+		percepcion.setSalasAdyacentes(salasAdyacentes);
+		percepcion.setGlobal(global);
+		percepcion.setSalasConTripulantes(salasConTripulantes);
+		
+		return percepcion;
 	}
 }

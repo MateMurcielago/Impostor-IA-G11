@@ -33,4 +33,27 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 	}
 	
 	//El resto de funciones las ire definiendo según vea
+	public int getPosImpostor() {
+		return this.posImpostor;
+	}
+	
+	public void setPosImpostor(int p) {
+		this.posImpostor = p;
+	}
+	
+	public int getTripulantesSala(int i) {
+		return this.mapa.getTripulantesSala(i);
+	}
+	
+	public Boolean getEsSaboteableSala(int i) {
+		return this.mapa.getEsSaboteableSala(i);
+	}
+	
+	public int[] getSalasAdyacentesSala(int i) {
+		int[] ady = new int[14];
+		for(int j = 0; j < 14; j++) {
+			ady[j] = this.estructuraMapa[i][j];
+		}
+		return ady;
+	}
 }

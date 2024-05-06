@@ -11,6 +11,8 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 	private int[][] conexionesMapa;
 	private int[] salasConTripulantes;
 	private int globalCooldown;
+	//agregar percepciones locales de la sala
+	//quitar el cooldown y meterlo en el ambiente
 	
 	public ImpostorAgentState() {
 		this.posicion = -1;
@@ -72,6 +74,60 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 				conexionesMapa, salasConTripulantes, globalCooldown);
 		return estado;
 	}
-	
-	
+
+	public int getPosicion() {
+		return posicion;
+	}
+
+	public void setPosicion(int posicion) {
+		this.posicion = posicion;
+	}
+
+	public int[] getSalasSaboteadas() {
+		return salasSaboteadas;
+	}
+
+	public void setSalasSaboteadas(int[] salasSaboteadas) {
+		this.salasSaboteadas = salasSaboteadas;
+	}
+
+	public int getEnergia() {
+		return energia;
+	}
+
+	public void setEnergia(int energia) {
+		this.energia = energia;
+	}
+
+	public int getTripulantesVivos() {
+		return tripulantesVivos;
+	}
+
+	public void setTripulantesVivos(int tripulantesVivos) {
+		this.tripulantesVivos = tripulantesVivos;
+	}
+
+	public int[][] getConexionesMapa() {
+		return conexionesMapa;
+	}
+
+	public void setConexionesMapa(int[][] conexionesMapa) {
+		this.conexionesMapa = conexionesMapa;
+	}
+
+	public int[] getSalasConTripulantes() {
+		return salasConTripulantes;
+	}
+
+	public void setSalasConTripulantes(int[] salasConTripulantes) {
+		this.salasConTripulantes = salasConTripulantes;
+	}
+
+	public int getGlobalCooldown() {
+		return globalCooldown;
+	}
+
+	public void setGlobalCooldown(int globalCooldown) {
+		this.globalCooldown = globalCooldown;
+	}
 }
