@@ -8,6 +8,8 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 	private int[][] estructuraMapa;
 	private int tripulantes;
 	private int posImpostor;
+	private int globalCooldown;
+	private int energiaImpostor;
 	
 	public ImpostorEnvironmentState() {
 		mapa = new Mapa();
@@ -23,6 +25,7 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 		//Colocar al impostor y definir su energía
 		
 		/*Por alguna razón ahora se me pintó por comentar así*/
+		this.globalCooldown = 3;
 	}
 	
 	@Override
@@ -41,8 +44,20 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 		this.posImpostor = p;
 	}
 	
+	public int getTripulantes() {
+		return this.tripulantes;
+	}
+	
+	public void  setTripulantes(int t) {
+		this.tripulantes = t;
+	}
+	
 	public int getTripulantesSala(int i) {
 		return this.mapa.getTripulantesSala(i);
+	}
+	
+	public void setTripulantesSala(int i, int t) {
+		this.mapa.setTripulantesSalas(i, t);
 	}
 	
 	public Boolean getEsSaboteableSala(int i) {
@@ -55,5 +70,13 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 			ady[j] = this.estructuraMapa[i][j];
 		}
 		return ady;
+	}
+
+	public int getEnergiaImpostor() {
+		return energiaImpostor;
+	}
+
+	public void setEnergiaImpostor(int energiaImpostor) {
+		this.energiaImpostor = energiaImpostor;
 	}
 }

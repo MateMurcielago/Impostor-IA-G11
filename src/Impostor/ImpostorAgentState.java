@@ -10,7 +10,7 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 	private int tripulantesVivos;
 	private int[][] conexionesMapa;
 	private int[] salasConTripulantes;
-	private int globalCooldown;
+	private int tripulantesEnEstaSala;
 	//agregar percepciones locales de la sala
 	//quitar el cooldown y meterlo en el ambiente
 	
@@ -21,7 +21,6 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		this.tripulantesVivos = 5; //ponele
 		this.conexionesMapa = new int[14][14];
 		this.salasConTripulantes = new int[14];
-		globalCooldown = 3;
 		
 		for(int i = 0; i < 3; i++) {
 			this.salasSaboteadas[i] = 0;
@@ -36,17 +35,19 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		for(int i = 0; i < 14; i++) {
 			this.salasConTripulantes[i] = 0;
 		}
+		
+		this.tripulantesEnEstaSala = 0;
 	}
 	
 	public ImpostorAgentState(int posicion, int[] salasSaboteadas, int energia, int tripulantesVivos, 
-			int[][] conexionesMapa, int[] salasConTripulantes, int globalCooldown) {
+			int[][] conexionesMapa, int[] salasConTripulantes, int tripulantesEnEstaSala) {
 		this.posicion = posicion;
 		this.salasSaboteadas = salasSaboteadas;
 		this.energia = energia;
 		this.tripulantesVivos = tripulantesVivos;
 		this.conexionesMapa = conexionesMapa;
 		this.salasConTripulantes = salasConTripulantes;
-		this.globalCooldown = globalCooldown;
+		this.tripulantesEnEstaSala = tripulantesEnEstaSala;
 	}
 	
 	@Override
@@ -68,10 +69,10 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		for(int i = 0; i < 14; i++) {
 			salasConTripulantes[i] = this.salasConTripulantes[i];
 		}
-		int globalCooldown = this.globalCooldown;
+		int tripulantesEnEstaSala = this.tripulantesEnEstaSala;
 		
 		ImpostorAgentState estado = new ImpostorAgentState(posicion, salasSaboteadas, energia, tripulantesVivos, 
-				conexionesMapa, salasConTripulantes, globalCooldown);
+				conexionesMapa, salasConTripulantes, tripulantesEnEstaSala);
 		return estado;
 	}
 
@@ -122,12 +123,12 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 	public void setSalasConTripulantes(int[] salasConTripulantes) {
 		this.salasConTripulantes = salasConTripulantes;
 	}
-
-	public int getGlobalCooldown() {
-		return globalCooldown;
+	
+	public int getTripulantesEnEstaSala() {
+		return this.tripulantesEnEstaSala;
 	}
-
-	public void setGlobalCooldown(int globalCooldown) {
-		this.globalCooldown = globalCooldown;
+	
+	public void setTripulantesEnEstaSala(int t) {
+		this.tripulantesEnEstaSala = t;
 	}
 }

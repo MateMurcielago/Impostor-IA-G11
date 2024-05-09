@@ -37,4 +37,15 @@ public class ImpostorEnvironment extends Environment {
 		
 		return percepcion;
 	}
+	
+	@Override
+    public boolean agentFailed(Action actionReturned) {
+		ImpostorEnvironmentState environmentState = this.getEnvironmentState();
+		int energiaImpostor = environmentState.getEnergiaImpostor();
+		
+		//Solo puede fallar si se le acaba la energía
+		if(energiaImpostor >= 0) {
+			return true;
+		} else return false;
+	}
 }
