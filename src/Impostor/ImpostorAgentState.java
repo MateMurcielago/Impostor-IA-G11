@@ -11,8 +11,9 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 	private int[][] conexionesMapa;
 	private int[] salasConTripulantes;
 	private int tripulantesEnEstaSala;
-	//agregar percepciones locales de la sala
-	//quitar el cooldown y meterlo en el ambiente
+	private Boolean salaASabotear;
+	private int salasVisitadas;
+	private int[] salasAdyacentes;
 	
 	public ImpostorAgentState() {
 		this.posicion = -1;
@@ -35,12 +36,15 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		for(int i = 0; i < 14; i++) {
 			this.salasConTripulantes[i] = 0;
 		}
-		
+		this.salaASabotear = false;
 		this.tripulantesEnEstaSala = 0;
+		this.salasVisitadas = 0;
+		this.salasAdyacentes = new int[6];
 	}
 	
 	public ImpostorAgentState(int posicion, int[] salasSaboteadas, int energia, int tripulantesVivos, 
-			int[][] conexionesMapa, int[] salasConTripulantes, int tripulantesEnEstaSala) {
+			int[][] conexionesMapa, int[] salasConTripulantes, int tripulantesEnEstaSala, Boolean salaASabotear, 
+			int salasVisitadas, int[] salasAdyacentes) {
 		this.posicion = posicion;
 		this.salasSaboteadas = salasSaboteadas;
 		this.energia = energia;
@@ -48,6 +52,9 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		this.conexionesMapa = conexionesMapa;
 		this.salasConTripulantes = salasConTripulantes;
 		this.tripulantesEnEstaSala = tripulantesEnEstaSala;
+		this.salaASabotear = salaASabotear;
+		this.salasVisitadas = salasVisitadas;
+		this.salasAdyacentes = salasAdyacentes;
 	}
 	
 	@Override
@@ -70,10 +77,24 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 			salasConTripulantes[i] = this.salasConTripulantes[i];
 		}
 		int tripulantesEnEstaSala = this.tripulantesEnEstaSala;
+		Boolean salaASabotear = this.salaASabotear;
+		int salasVisitadas = this.salasVisitadas;
+		int[] salasAdyacentes = this.salasAdyacentes;
 		
 		ImpostorAgentState estado = new ImpostorAgentState(posicion, salasSaboteadas, energia, tripulantesVivos, 
-				conexionesMapa, salasConTripulantes, tripulantesEnEstaSala);
+				conexionesMapa, salasConTripulantes, tripulantesEnEstaSala, salaASabotear, salasVisitadas, 
+				salasAdyacentes);
 		return estado;
+	}
+	
+	@Override
+    public void updateState(Perception p) {
+		ImpostorPerception percepcion = (ImpostorPerception) p;
+		this.tripulantesEnEstaSala = percepcion.getTripulantes();
+		this.posicion = percepcion.getPosicion();
+		this.salaASabotear = percepcion.getSalaASabotear();
+		this.salasAdyacentes = percepcion.getSalasAdyacentes();
+		if(percepcion.getGlobal()) this.salasConTripulantes = percepcion.getSalasConTripulantes();
 	}
 
 	public int getPosicion() {
@@ -130,5 +151,37 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 	
 	public void setTripulantesEnEstaSala(int t) {
 		this.tripulantesEnEstaSala = t;
+	}
+
+	public int getSalasVisitadas() {
+		return salasVisitadas;
+	}
+
+	public void setSalasVisitadas(int salasVisitadas) {
+		this.salasVisitadas = salasVisitadas;
+	}
+
+	public Boolean getSalaASabotear() {
+		return salaASabotear;
+	}
+
+	public void setSalaASabotear(Boolean salaASabotear) {
+		this.salaASabotear = salaASabotear;
+	}
+
+	public int[] getSalasAdyacentes() {
+		return salasAdyacentes;
+	}
+
+	public void setSalasAdyacentes(int[] salasAdyacentes) {
+		this.salasAdyacentes = salasAdyacentes;
+	}
+	
+	public void setSalaSaboteada(int i, int s) {
+		this.salasSaboteadas[i] = s;
+	}
+	
+	public void aumentarContador() {
+		this.salasVisitadas++;
 	}
 }

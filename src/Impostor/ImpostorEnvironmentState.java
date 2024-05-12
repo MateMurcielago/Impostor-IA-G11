@@ -64,6 +64,10 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 		return this.mapa.getEsSaboteableSala(i);
 	}
 	
+	public void setFueSaboteadaSala(int i, Boolean s) {
+		this.mapa.setFueSaboteadaSala(i, s);
+	}
+	
 	public int[] getSalasAdyacentesSala(int i) {
 		int[] ady = new int[14];
 		for(int j = 0; j < 14; j++) {
