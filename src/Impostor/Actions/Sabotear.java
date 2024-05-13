@@ -11,19 +11,16 @@ public class Sabotear extends SearchAction {
 	public SearchBasedAgentState execute(SearchBasedAgentState s) {
 		ImpostorAgentState impostorState = (ImpostorAgentState) s;
 		
-		//Solo puede sabotear si la sala es saboteable y no la saboteó antes (ya que no se cambia el ambiente)
-		int aux = 0;
+		//Solo puede sabotear si la sala en la que está es saboteable (ya que no vuelve a percibir)
 		int pos = impostorState.getPosicion();
-		for(int i = 0; i < 3; i++) {
-			if(impostorState.getSalasSaboteadas()[i] == pos) aux++;
-		}
 		
-		if(impostorState.getSalaASabotear() && aux == 0) {
+		if(impostorState.getSalaASabotear()) {
 			for(int i = 0; i < 3; i++) {
 				if(impostorState.getSalasSaboteadas()[i] != -1) {
 					impostorState.setSalaSaboteada(i, pos);
 				}
 			}
+			impostorState.setSalaASabotear(false);
 		}
 		
 		return impostorState;
@@ -33,7 +30,8 @@ public class Sabotear extends SearchAction {
     public EnvironmentState execute(AgentState ast, EnvironmentState est) {
 		ImpostorEnvironmentState environmentState = (ImpostorEnvironmentState) est;
 		ImpostorAgentState impostorState = (ImpostorAgentState) ast;
-		
+
+		//Solo puede sabotear si la sala es saboteable y no la saboteó antes
 		int aux = 0;
 		int pos = impostorState.getPosicion();
 		for(int i = 0; i < 3; i++) {
@@ -46,6 +44,7 @@ public class Sabotear extends SearchAction {
 					impostorState.setSalaSaboteada(i, pos);
 				}
 			}
+			impostorState.setSalaASabotear(false);
 			environmentState.setFueSaboteadaSala(pos, true);
 		}
 		

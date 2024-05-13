@@ -251,4 +251,40 @@ public class Mapa {
 	public void setTripulantesSalas(int i, int t) {
 		this.salas[i].setTripulantes(t);
 	}
+	
+	//Traductor para el impostor
+	public static String traducirPosicion(int i) {
+		switch(i) {
+		case 0:
+			return "Cafetería";
+		case 1:
+			return "Medicina";
+		case 2:
+			return "Maquinaria Superior";
+		case 3:
+			return "Reactor";
+		case 4:
+			return "Maquinaria Inferior";
+		case 5:
+			return "Seguridad";
+		case 6:
+			return "Electricidad";
+		case 7:
+			return "Almacén";
+		case 8:
+			return "Comunicaciones";
+		case 9:
+			return "Administración";
+		case 10:
+			return "Oxígeno";
+		case 11:
+			return "Armas";
+		case 12:
+			return "Navegación";
+		case 13:
+			return "Escudos";
+		default:
+			return "";
+		}
+	}
 }

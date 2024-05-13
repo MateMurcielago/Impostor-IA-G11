@@ -1,6 +1,9 @@
 package Impostor;
 
 import frsf.cidisi.faia.agent.search.SearchBasedAgent;
+import frsf.cidisi.faia.solver.search.AStarSearch;
+import frsf.cidisi.faia.solver.search.BreathFirstSearch;
+import frsf.cidisi.faia.solver.search.IEstimatedCostFunction;
 import frsf.cidisi.faia.solver.search.IStepCostFunction;
 import frsf.cidisi.faia.solver.search.Search;
 import frsf.cidisi.faia.solver.search.UniformCostSearch;
@@ -39,8 +42,18 @@ public class ImpostorAgent extends SearchBasedAgent {
 	
 	@Override
     public Action selectAction() {
+		//1° Estrategia
 		IStepCostFunction costFunction = new CostFunction();
 		UniformCostSearch estrategia = new UniformCostSearch(costFunction);
+		
+		//2° Estrategia
+		//BreathFirstSearch estrategia = new BreathFirstSearch();
+		
+		//3° Estrategia
+		//IStepCostFunction cost = new CostFunction();
+        //IEstimatedCostFunction heuristic = new Heuristic();
+        //AStarSearch strategy = new AStarSearch(cost, heuristic);
+		
 		Search searchSolver = new Search(estrategia);
 		searchSolver.setVisibleTree(Search.EFAIA_TREE);
 		this.setSolver(searchSolver);

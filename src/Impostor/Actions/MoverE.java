@@ -19,8 +19,11 @@ public class MoverE extends SearchAction {
 			//Moverse cuesta energía
 			impostorState.setEnergia(impostorState.getEnergia() - 1);
 			impostorState.aumentarContador();
+			//Como no vuelve a percibir, para las siguientes salas a las que moverse se basa en la info que recolectó
+			impostorState.setSalasAdyacentes(siguienteSala);
+			return impostorState;
 		}
-		return impostorState;
+		return null;
 	}
 	
 	@Override

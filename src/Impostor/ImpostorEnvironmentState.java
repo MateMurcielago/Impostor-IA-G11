@@ -32,7 +32,7 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 	public String toString() {
 		//Permite obtener una versión en string del estado
 		String str = "";
-		return "mondongo";
+		return str;
 	}
 	
 	//El resto de funciones las ire definiendo según vea
@@ -68,6 +68,10 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 		this.mapa.setFueSaboteadaSala(i, s);
 	}
 	
+	public Boolean getFueSaboteadaSala(int i) {
+		return this.mapa.getFueSaboteadaSala(i);
+	}
+	
 	public int[] getSalasAdyacentesSala(int i) {
 		int[] ady = new int[14];
 		for(int j = 0; j < 14; j++) {
@@ -82,5 +86,11 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 
 	public void setEnergiaImpostor(int energiaImpostor) {
 		this.energiaImpostor = energiaImpostor;
+	}
+	
+	public Boolean getSalaASabotear(int i) {
+		if(this.getEsSaboteableSala(i) && this.getFueSaboteadaSala(i)) {
+			return true;
+		} else return false;
 	}
 }

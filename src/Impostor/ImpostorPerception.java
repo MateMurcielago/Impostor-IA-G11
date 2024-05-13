@@ -25,7 +25,7 @@ public class ImpostorPerception extends Perception {
 		
 		this.setPosicion(estadoAmbiente.getPosImpostor());
 		this.setTripulantes(estadoAmbiente.getTripulantesSala(this.posicion));
-		this.setSalaASabotear(estadoAmbiente.getEsSaboteableSala(this.posicion));
+		this.setSalaASabotear(estadoAmbiente.getSalaASabotear(this.posicion));
 		this.setSalasAdyacentes(estadoAmbiente.getSalasAdyacentesSala(this.posicion));
 		this.setGlobal(false); //Por ahora
 		this.setSalasConTripulantes(new int[14]); //Por ahora

@@ -1,5 +1,6 @@
 package Impostor;
 
+import Extras.Mapa;
 import frsf.cidisi.faia.agent.Perception;
 import frsf.cidisi.faia.agent.search.SearchBasedAgentState;
 
@@ -96,7 +97,57 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		this.salasAdyacentes = percepcion.getSalasAdyacentes();
 		if(percepcion.getGlobal()) this.salasConTripulantes = percepcion.getSalasConTripulantes();
 	}
-
+	
+	@Override
+    public void initState() {
+		
+	}
+	
+	@Override
+    public String toString() {
+		String str = "";
+		str = str + "Sala actual: " + Mapa.traducirPosicion(this.getPosicion()) + "\n";
+		str = str + "Salas Saboteadas: ";
+		if (this.salasSaboteadas[0] == -1) {
+			str = str + "Ninguna\n";
+		} else {
+			str = str + Mapa.traducirPosicion(this.salasSaboteadas[0]);
+			for(int i = 1; i < 3; i++) {
+				if(this.salasSaboteadas[i] != -1) str = str + ", " + Mapa.traducirPosicion(this.salasSaboteadas[i]); 
+			}
+			str = str + "\n";
+		}
+		str = str + "Energía Restante: " + this.getEnergia() + "\n";
+		str = str + "Tripulantes Vivos: " + this.getTripulantesVivos() + "\n";
+		str = str + "Salas con Tripulantes: ";
+		int aux = 0;
+		for(int i = 0; i < 14; i++) {
+			if(this.salasConTripulantes[i] != -1) {
+				if (i != 0) str = str + ", " ;
+				str = str + Mapa.traducirPosicion(i) + " (" + this.salasConTripulantes[i] + ")"; 
+			}
+			aux++;
+		}
+		if(aux == 0) str = str + "Ninguna\n"; 
+		else str = str + "\n";
+		str = str + "Tripulantes en " + Mapa.traducirPosicion(this.getPosicion()) + ": " 
+				+ this.getTripulantesEnEstaSala() + "\n";
+		str = str + Mapa.traducirPosicion(this.getPosicion());
+		if (!this.getSalaASabotear()) str = str + " no";
+		str = str + " es saboteable\n";
+		str = str + "Destinos Posibles: ";
+		for(int i = 0; i < 14; i++) {
+			if(this.salasAdyacentes[i] != -1) {
+				if (i != 0) str = str + ", " ;
+				str = str + Mapa.traducirPosicion(this.salasAdyacentes[i]); 
+			}
+			aux++;
+		}
+		str = str + "\n";
+		return str;
+	}
+	
+	//Funciones propias del impostor
 	public int getPosicion() {
 		return posicion;
 	}
@@ -145,6 +196,14 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		this.salasConTripulantes = salasConTripulantes;
 	}
 	
+	public int getTripulantesEnSala(int i) {
+		return salasConTripulantes[i];
+	}
+	
+	public void setTripulantesEnSala(int i, int t) {
+		salasConTripulantes[i] = t;
+	}
+	
 	public int getTripulantesEnEstaSala() {
 		return this.tripulantesEnEstaSala;
 	}
@@ -175,6 +234,19 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 
 	public void setSalasAdyacentes(int[] salasAdyacentes) {
 		this.salasAdyacentes = salasAdyacentes;
+	}
+	
+	//Usado en la búsqueda
+	public void setSalasAdyacentes(int pos) {
+		int[] s = new int[6];
+		int aux = 0;
+		for(int i = 0; i < 6; i++) s[i] = -1;
+		for(int i = 0; i < 14; i++) {
+			if(this.conexionesMapa[pos][i] == 1) {
+				s[aux] = i;
+				aux++;
+			}
+		}
 	}
 	
 	public void setSalaSaboteada(int i, int s) {

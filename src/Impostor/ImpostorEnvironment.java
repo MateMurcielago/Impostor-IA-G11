@@ -22,7 +22,7 @@ public class ImpostorEnvironment extends Environment {
 		
 		int posicion = this.getEnvironmentState().getPosImpostor();
 		int tripulantes = this.getEnvironmentState().getTripulantesSala(posicion);
-		Boolean salaASabotear = this.getEnvironmentState().getEsSaboteableSala(posicion);
+		Boolean salaASabotear = this.getEnvironmentState().getSalaASabotear(posicion);
 		int[] salasAdyacentes = this.getEnvironmentState().getSalasAdyacentesSala(posicion);
 		//la percepcion global la defino más tarde
 		Boolean global = false;

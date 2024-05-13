@@ -11,12 +11,19 @@ public class Matar extends SearchAction {
 	@Override
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
 		ImpostorAgentState impostorState = (ImpostorAgentState) s;
+		int pos = impostorState.getPosicion();
 		
 		//Solo puede matar si en donde está hay uno o más tripulantes
 		if(impostorState.getTripulantesEnEstaSala() > 0) {
 			//Si mata se descuentan los tripulantes vivos y los de esa sala
 			impostorState.setTripulantesVivos(impostorState.getTripulantesVivos() - 1);
 			impostorState.setTripulantesEnEstaSala(impostorState.getTripulantesEnEstaSala() - 1);
+			return impostorState;
+		//Sino es que ya mató a todos los de la sala y se movió a una nueva, en ese caso revisa la info de la vista
+		//global para seguir con el árbol
+		} else if(impostorState.getTripulantesEnSala(pos) > 0){
+			impostorState.setTripulantesVivos(impostorState.getTripulantesVivos() - 1);
+			impostorState.setTripulantesEnSala(pos, impostorState.getTripulantesEnSala(pos) - 1);
 			return impostorState;
 		}
 		
