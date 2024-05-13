@@ -12,7 +12,7 @@ public class MoverD extends SearchAction {
     public SearchBasedAgentState execute(SearchBasedAgentState s) {
 		ImpostorAgentState impostorState = (ImpostorAgentState) s;
 		
-		int siguienteSala = impostorState.getSalasAdyacentes()[4];
+		int siguienteSala = impostorState.getSalasAdyacentes()[3];
 		//Solo puede realizar esta acción si hay una quinta sala a la que ir
 		if(siguienteSala >= 0) {
 			impostorState.setPosicion(siguienteSala);
@@ -31,7 +31,7 @@ public class MoverD extends SearchAction {
 		ImpostorEnvironmentState environmentState = (ImpostorEnvironmentState) est;
 		ImpostorAgentState impostorState = (ImpostorAgentState) ast;
 		
-		int siguienteSala = impostorState.getSalasAdyacentes()[4];
+		int siguienteSala = impostorState.getSalasAdyacentes()[3];
 		
 		if(siguienteSala >= 0) {
 			impostorState.setPosicion(siguienteSala);
