@@ -1,7 +1,6 @@
 package Impostor;
 
 import frsf.cidisi.faia.agent.Action;
-import frsf.cidisi.faia.agent.Agent;
 import frsf.cidisi.faia.agent.Perception;
 import frsf.cidisi.faia.environment.Environment;
 
@@ -17,16 +16,20 @@ public class ImpostorEnvironment extends Environment {
 	
 	@Override
 	public Perception getPercept() {
-		//Falta definir las percepciones
 		ImpostorPerception percepcion = new ImpostorPerception();
 		
 		int posicion = this.getEnvironmentState().getPosImpostor();
 		int tripulantes = this.getEnvironmentState().getTripulantesSala(posicion);
 		Boolean salaASabotear = this.getEnvironmentState().getSalaASabotear(posicion);
 		int[] salasAdyacentes = this.getEnvironmentState().getSalasAdyacentesSala(posicion);
-		//la percepcion global la defino más tarde
 		Boolean global = false;
 		int[] salasConTripulantes = new int[14];
+		if(this.getEnvironmentState().getGlobalCooldown() == 0) {
+			global = true;
+			for(int i = 0; i < 14; i++) {
+				salasConTripulantes[i] = this.getEnvironmentState().getTripulantesSala(i);
+			}
+		}
 		
 		percepcion.setPosicion(posicion);
 		percepcion.setTripulantes(tripulantes);
@@ -44,8 +47,12 @@ public class ImpostorEnvironment extends Environment {
 		int energiaImpostor = environmentState.getEnergiaImpostor();
 		
 		//Solo puede fallar si se le acaba la energía
-		if(energiaImpostor >= 0) {
+		if(energiaImpostor <= 0) {
 			return true;
 		} else return false;
+	}
+	
+	public int[][] getConexiones() {
+		return this.getEnvironmentState().getConexiones();
 	}
 }

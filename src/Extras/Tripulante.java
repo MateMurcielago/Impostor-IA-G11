@@ -19,6 +19,15 @@ public class Tripulante {
 		this.vivo = true;
 	}
 	
+	public int Mover(int[] opciones) {
+		this.cooldownMoverse--;
+		if(this.getCooldownMoverse() > 0) {
+			int i = 0;
+			this.setPosicion(opciones[i]);
+			return opciones[i];
+		} else return this.getPosicion();
+	}
+	
 	public void Mover(ImpostorEnvironmentState s) {
 		if(this.getCooldownMoverse() > 0) {
 			int[] opciones = s.getSalasAdyacentesSala(this.getPosicion());

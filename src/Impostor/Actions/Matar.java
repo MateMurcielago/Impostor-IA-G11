@@ -18,12 +18,14 @@ public class Matar extends SearchAction {
 			//Si mata se descuentan los tripulantes vivos y los de esa sala
 			impostorState.setTripulantesVivos(impostorState.getTripulantesVivos() - 1);
 			impostorState.setTripulantesEnEstaSala(impostorState.getTripulantesEnEstaSala() - 1);
+			impostorState.aumentarContador(2);
 			return impostorState;
 		//Sino es que ya mató a todos los de la sala y se movió a una nueva, en ese caso revisa la info de la vista
 		//global para seguir con el árbol
 		} else if(impostorState.getTripulantesEnSala(pos) > 0){
 			impostorState.setTripulantesVivos(impostorState.getTripulantesVivos() - 1);
 			impostorState.setTripulantesEnSala(pos, impostorState.getTripulantesEnSala(pos) - 1);
+			impostorState.aumentarContador(2);
 			return impostorState;
 		}
 		
@@ -58,6 +60,6 @@ public class Matar extends SearchAction {
 	
     @Override
     public String toString() {
-        return "Mata";
+        return "Mata a un tripulante";
     }
 }

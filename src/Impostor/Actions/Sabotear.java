@@ -21,9 +21,11 @@ public class Sabotear extends SearchAction {
 				}
 			}
 			impostorState.setSalaASabotear(false);
+			impostorState.aumentarContador(3);
+			return impostorState;
 		}
 		
-		return impostorState;
+		return null;
 	}
 	
 	@Override

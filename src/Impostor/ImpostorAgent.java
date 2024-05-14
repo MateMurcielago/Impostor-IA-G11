@@ -28,13 +28,9 @@ public class ImpostorAgent extends SearchBasedAgent {
 		
 		Vector<SearchAction> operadores = new Vector<SearchAction>();
 		operadores.add(new Matar());
-		operadores.add(new MoverA());
-		operadores.add(new MoverB());
-		operadores.add(new MoverC());
-		operadores.add(new MoverD());
-		operadores.add(new MoverE());
-		operadores.add(new MoverF());
-		operadores.add(new Sabotear());
+		for(int i = 0; i < 14; i++) {
+			operadores.add(new Mover(i));
+		}
 		
 		Problem problema = new Problem(goal, estado, operadores);
 		this.setProblem(problema);
@@ -71,4 +67,8 @@ public class ImpostorAgent extends SearchBasedAgent {
     public void see(Perception p) {
         this.getAgentState().updateState(p);
     }
+	
+	public void setConexiones(int[][] c) {
+		((ImpostorAgentState) this.getAgentState()).setConexiones(c);
+	}
 }

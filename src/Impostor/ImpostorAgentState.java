@@ -14,10 +14,12 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 	private int tripulantesEnEstaSala;
 	private Boolean salaASabotear;
 	private int salasVisitadas;
+	private int asesinatos;
+	private int sabotajes;
 	private int[] salasAdyacentes;
 	
 	public ImpostorAgentState() {
-		this.posicion = -1;
+		this.posicion = 0;
 		this.salasSaboteadas = new int[3];
 		this.energia = 0;
 		this.tripulantesVivos = 5; //ponele
@@ -39,7 +41,7 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		}
 		this.salaASabotear = false;
 		this.tripulantesEnEstaSala = 0;
-		this.salasVisitadas = 0;
+		this.salasVisitadas = this.asesinatos = this.sabotajes = 0;
 		this.salasAdyacentes = new int[6];
 	}
 	
@@ -100,7 +102,30 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 	
 	@Override
     public void initState() {
+		this.posicion = 0;
+		this.salasSaboteadas = new int[3];
+		this.energia = 0;
+		this.tripulantesVivos = 5; //ponele
+		this.conexionesMapa = new int[14][14];
+		this.salasConTripulantes = new int[14];
 		
+		for(int i = 0; i < 3; i++) {
+			this.salasSaboteadas[i] = 0;
+		}
+		
+		for(int i = 0; i < 14; i++) {
+			for(int j = 0; j < 14; j++) {
+				this.conexionesMapa[i][j] = 0;
+			}
+		}
+		
+		for(int i = 0; i < 14; i++) {
+			this.salasConTripulantes[i] = 0;
+		}
+		this.salaASabotear = false;
+		this.tripulantesEnEstaSala = 0;
+		this.salasVisitadas = 0;
+		this.salasAdyacentes = new int[6];
 	}
 	
 	@Override
@@ -145,6 +170,17 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		}
 		str = str + "\n";
 		return str;
+	}
+	
+	@Override
+    public boolean equals(Object obj) {
+		if(!(obj instanceof ImpostorAgentState)) {
+			return false;
+		} else {
+			int pos = ((ImpostorAgentState) obj).getPosicion();
+			if(pos != this.getPosicion()) return false;
+			return true;
+		}
 	}
 	
 	//Funciones propias del impostor
@@ -253,7 +289,25 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		this.salasSaboteadas[i] = s;
 	}
 	
-	public void aumentarContador() {
-		this.salasVisitadas++;
+	public void aumentarContador(int c) {
+		switch(c) {
+		case 1:
+			this.salasVisitadas++;
+			break;
+		case 2:
+			this.asesinatos++;
+			break;
+		case 3:
+			this.sabotajes++;
+			break;
+		}
+	}
+	
+	public int getAdyacencia(int i, int j) {
+		return this.conexionesMapa[i][j];
+	}
+	
+	public void setConexiones(int[][] c) {
+		this.conexionesMapa = c;
 	}
 }

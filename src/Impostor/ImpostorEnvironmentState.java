@@ -18,13 +18,10 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 	
 	@Override
 	public void initState() {
-		//Generar el mapa
-		
 		//Colocar a los tripulantes
 		
 		//Colocar al impostor y definir su energía
 		
-		/*Por alguna razón ahora se me pintó por comentar así*/
 		this.globalCooldown = 3;
 	}
 	
@@ -32,6 +29,19 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 	public String toString() {
 		//Permite obtener una versión en string del estado
 		String str = "";
+		str = str + "Impostor: " + this.mapa.getNombreSala(this.getPosImpostor()) + "\n";
+		//Ubicaciones Tripulantes
+		str = str + "Reactor ";
+		if(mapa.getFueSaboteadaSala(3)) str = str + "sabotado\n";
+		else str = str + "sin sabotear\n";
+		str = str + "Electricidad ";
+		if(mapa.getFueSaboteadaSala(6)) str = str + "sabotada\n";
+		else str = str + "sin sabotear\n";
+		str = str + "Armas";
+		if(mapa.getFueSaboteadaSala(11)) str = str + "sabotadas\n";
+		else str = str + "sin sabotear\n";
+		str = str + "Energía del impostor: " + this.getEnergiaImpostor() + "\n";
+		str = str + "Ciclos Restantes para Vista Global: " + this.globalCooldown + "\n";
 		return str;
 	}
 	
@@ -75,7 +85,7 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 	public int[] getSalasAdyacentesSala(int i) {
 		int[] ady = new int[14];
 		for(int j = 0; j < 14; j++) {
-			ady[j] = this.estructuraMapa[i][j];
+			ady[j] = this.mapa.getConexiones()[i][j];
 		}
 		return ady;
 	}
@@ -92,5 +102,17 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 		if(this.getEsSaboteableSala(i) && this.getFueSaboteadaSala(i)) {
 			return true;
 		} else return false;
+	}
+
+	public int getGlobalCooldown() {
+		return globalCooldown;
+	}
+
+	public void setGlobalCooldown(int globalCooldown) {
+		this.globalCooldown = globalCooldown;
+	}
+	
+	public int[][] getConexiones() {
+		return this.mapa.getConexiones();
 	}
 }
