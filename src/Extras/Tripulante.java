@@ -55,11 +55,11 @@ public class Tripulante {
 		this.posicion = posicion;
 	}
 
-	public Boolean getVivo() {
+	public Boolean estaVivo() {
 		return vivo;
 	}
 
-	public void setVivo(Boolean vivo) {
-		this.vivo = vivo;
+	public void morir() {
+		this.vivo = false;
 	}
 }

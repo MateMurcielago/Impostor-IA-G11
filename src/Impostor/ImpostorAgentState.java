@@ -1,5 +1,6 @@
 package Impostor;
 
+import Extras.CantTripulantes;
 import Extras.Mapa;
 import frsf.cidisi.faia.agent.Perception;
 import frsf.cidisi.faia.agent.search.SearchBasedAgentState;
@@ -16,18 +17,17 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 	private int salasVisitadas;
 	private int asesinatos;
 	private int sabotajes;
-	private int[] salasAdyacentes;
 	
 	public ImpostorAgentState() {
 		this.posicion = 0;
 		this.salasSaboteadas = new int[3];
-		this.energia = 0;
-		this.tripulantesVivos = 5; //ponele
+		this.energia = 30;
+		this.tripulantesVivos = CantTripulantes.max;
 		this.conexionesMapa = new int[14][14];
 		this.salasConTripulantes = new int[14];
 		
 		for(int i = 0; i < 3; i++) {
-			this.salasSaboteadas[i] = 0;
+			this.salasSaboteadas[i] = -1;
 		}
 		
 		for(int i = 0; i < 14; i++) {
@@ -42,12 +42,11 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		this.salaASabotear = false;
 		this.tripulantesEnEstaSala = 0;
 		this.salasVisitadas = this.asesinatos = this.sabotajes = 0;
-		this.salasAdyacentes = new int[6];
 	}
 	
 	public ImpostorAgentState(int posicion, int[] salasSaboteadas, int energia, int tripulantesVivos, 
 			int[][] conexionesMapa, int[] salasConTripulantes, int tripulantesEnEstaSala, Boolean salaASabotear, 
-			int salasVisitadas, int[] salasAdyacentes) {
+			int salasVisitadas, int asesinatos, int sabotajes) {
 		this.posicion = posicion;
 		this.salasSaboteadas = salasSaboteadas;
 		this.energia = energia;
@@ -57,7 +56,8 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		this.tripulantesEnEstaSala = tripulantesEnEstaSala;
 		this.salaASabotear = salaASabotear;
 		this.salasVisitadas = salasVisitadas;
-		this.salasAdyacentes = salasAdyacentes;
+		this.asesinatos = asesinatos;
+		this.sabotajes = sabotajes;
 	}
 	
 	@Override
@@ -82,11 +82,12 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		int tripulantesEnEstaSala = this.tripulantesEnEstaSala;
 		Boolean salaASabotear = this.salaASabotear;
 		int salasVisitadas = this.salasVisitadas;
-		int[] salasAdyacentes = this.salasAdyacentes;
+		int asesinatos = this.asesinatos;
+		int sabotajes = this.sabotajes;
 		
 		ImpostorAgentState estado = new ImpostorAgentState(posicion, salasSaboteadas, energia, tripulantesVivos, 
-				conexionesMapa, salasConTripulantes, tripulantesEnEstaSala, salaASabotear, salasVisitadas, 
-				salasAdyacentes);
+				conexionesMapa, salasConTripulantes, tripulantesEnEstaSala, salaASabotear, salasVisitadas, asesinatos, 
+				sabotajes);
 		return estado;
 	}
 	
@@ -95,8 +96,8 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		ImpostorPerception percepcion = (ImpostorPerception) p;
 		this.tripulantesEnEstaSala = percepcion.getTripulantes();
 		this.posicion = percepcion.getPosicion();
+		this.salasConTripulantes[this.posicion] = this.tripulantesEnEstaSala;
 		this.salaASabotear = percepcion.getSalaASabotear();
-		this.salasAdyacentes = percepcion.getSalasAdyacentes();
 		if(percepcion.getGlobal()) this.salasConTripulantes = percepcion.getSalasConTripulantes();
 	}
 	
@@ -124,8 +125,7 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		}
 		this.salaASabotear = false;
 		this.tripulantesEnEstaSala = 0;
-		this.salasVisitadas = 0;
-		this.salasAdyacentes = new int[6];
+		this.salasVisitadas = this.asesinatos = this.sabotajes = 0;
 	}
 	
 	@Override
@@ -147,11 +147,11 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		str = str + "Salas con Tripulantes: ";
 		int aux = 0;
 		for(int i = 0; i < 14; i++) {
-			if(this.salasConTripulantes[i] != -1) {
-				if (i != 0) str = str + ", " ;
+			if(this.salasConTripulantes[i] != 0) {
+				if (aux != 0) str = str + ", " ;
 				str = str + Mapa.traducirPosicion(i) + " (" + this.salasConTripulantes[i] + ")"; 
+				aux++;
 			}
-			aux++;
 		}
 		if(aux == 0) str = str + "Ninguna\n"; 
 		else str = str + "\n";
@@ -161,12 +161,13 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 		if (!this.getSalaASabotear()) str = str + " no";
 		str = str + " es saboteable\n";
 		str = str + "Destinos Posibles: ";
+		aux = 0;
 		for(int i = 0; i < 14; i++) {
-			if(this.salasAdyacentes[i] != -1) {
-				if (i != 0) str = str + ", " ;
-				str = str + Mapa.traducirPosicion(this.salasAdyacentes[i]); 
+			if(this.conexionesMapa[this.posicion][i] == 1) {
+				if (aux != 0) str = str + ", " ;
+				str = str + Mapa.traducirPosicion(i); 
+				aux++;
 			}
-			aux++;
 		}
 		str = str + "\n";
 		return str;
@@ -263,16 +264,8 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 	public void setSalaASabotear(Boolean salaASabotear) {
 		this.salaASabotear = salaASabotear;
 	}
-
-	public int[] getSalasAdyacentes() {
-		return salasAdyacentes;
-	}
-
-	public void setSalasAdyacentes(int[] salasAdyacentes) {
-		this.salasAdyacentes = salasAdyacentes;
-	}
 	
-	//Usado en la búsqueda
+	//Método sin usar
 	public void setSalasAdyacentes(int pos) {
 		int[] s = new int[6];
 		int aux = 0;
@@ -309,5 +302,21 @@ public class ImpostorAgentState extends SearchBasedAgentState {
 	
 	public void setConexiones(int[][] c) {
 		this.conexionesMapa = c;
+	}
+
+	public int getAsesinatos() {
+		return asesinatos;
+	}
+
+	public void setAsesinatos(int asesinatos) {
+		this.asesinatos = asesinatos;
+	}
+
+	public int getSabotajes() {
+		return sabotajes;
+	}
+
+	public void setSabotajes(int sabotajes) {
+		this.sabotajes = sabotajes;
 	}
 }

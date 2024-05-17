@@ -28,6 +28,7 @@ public class ImpostorAgent extends SearchBasedAgent {
 		
 		Vector<SearchAction> operadores = new Vector<SearchAction>();
 		operadores.add(new Matar());
+		operadores.add(new Sabotear());
 		for(int i = 0; i < 14; i++) {
 			operadores.add(new Mover(i));
 		}
@@ -39,11 +40,11 @@ public class ImpostorAgent extends SearchBasedAgent {
 	@Override
     public Action selectAction() {
 		//1° Estrategia
-		IStepCostFunction costFunction = new CostFunction();
-		UniformCostSearch estrategia = new UniformCostSearch(costFunction);
+		//IStepCostFunction costFunction = new CostFunction();
+		//UniformCostSearch estrategia = new UniformCostSearch(costFunction);
 		
 		//2° Estrategia
-		//BreathFirstSearch estrategia = new BreathFirstSearch();
+		BreathFirstSearch estrategia = new BreathFirstSearch();
 		
 		//3° Estrategia
 		//IStepCostFunction cost = new CostFunction();
@@ -57,6 +58,7 @@ public class ImpostorAgent extends SearchBasedAgent {
         try {
             selectedAction =
                     this.getSolver().solve(new Object[]{this.getProblem()});
+            ((Search) this.getSolver()).showTree();
         } catch (Exception ex) {
             Logger.getLogger(ImpostorAgent.class.getName()).log(Level.SEVERE, null, ex);
         }

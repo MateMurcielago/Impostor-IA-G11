@@ -5,7 +5,6 @@ import Extras.*;
 
 public class ImpostorEnvironmentState extends EnvironmentState {
 	private Mapa mapa;
-	private int[][] estructuraMapa;
 	private int tripulantes;
 	private int posImpostor;
 	private int globalCooldown;
@@ -18,17 +17,28 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 	
 	@Override
 	public void initState() {
+		this.tripulantes = CantTripulantes.max;
+		
 		//Colocar a los tripulantes
+		this.setTripulantesSala(1, 1);
+		this.setTripulantesSala(5, 1);
+		this.setTripulantesSala(7, 3);
+		this.setTripulantesSala(8, 1);
+		this.setTripulantesSala(9, 2);
+		this.setTripulantesSala(12, 1);
 		
 		//Colocar al impostor y definir su energía
+		this.setPosImpostor(0);
+		this.setEnergiaImpostor(30);
 		
-		this.globalCooldown = 3;
+		this.globalCooldown = 0;
 	}
 	
 	@Override
 	public String toString() {
 		//Permite obtener una versión en string del estado
 		String str = "";
+		str = str + "Tripulantes Vivos: " + this.getTripulantes() + "\n";
 		str = str + "Impostor: " + this.mapa.getNombreSala(this.getPosImpostor()) + "\n";
 		//Ubicaciones Tripulantes
 		str = str + "Reactor ";
@@ -45,7 +55,7 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 		return str;
 	}
 	
-	//El resto de funciones las ire definiendo según vea
+	//Funciones específicas del ambiente
 	public int getPosImpostor() {
 		return this.posImpostor;
 	}
@@ -82,6 +92,7 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 		return this.mapa.getFueSaboteadaSala(i);
 	}
 	
+	//Se usa para mover a los tripulantes
 	public int[] getSalasAdyacentesSala(int i) {
 		int[] ady = new int[14];
 		for(int j = 0; j < 14; j++) {
@@ -114,5 +125,24 @@ public class ImpostorEnvironmentState extends EnvironmentState {
 	
 	public int[][] getConexiones() {
 		return this.mapa.getConexiones();
+	}
+	
+	public Boolean getGlobal() {
+		if(this.globalCooldown == 0) {
+			return true;
+		} else return false;
+	}
+	
+	public int[] getSalasConTripulantes() {
+		int[] s = new int[14];
+		for(int i = 0; i < 14; i++) {
+			s[i] = this.getTripulantesSala(i);
+		}
+		return s;
+	}
+	
+	public void asesinato(int sala) {
+		this.setTripulantes(this.getTripulantes() - 1);
+		this.setTripulantesSala(sala, this.getTripulantesSala(sala) - 1);
 	}
 }

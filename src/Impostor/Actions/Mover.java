@@ -26,6 +26,9 @@ public class Mover extends SearchAction {
 			//Moverse cuesta energía
 			impostorState.setEnergia(impostorState.getEnergia() - 1);
 			impostorState.aumentarContador(1);
+			
+			//Por probar
+			impostorState.setTripulantesEnEstaSala(impostorState.getTripulantesEnSala(sala));
 			return impostorState;
 		} else return null;
 	}

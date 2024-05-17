@@ -8,6 +8,9 @@ public class ImpostorSearchMain {
 		ImpostorAgent agente = new ImpostorAgent();
 		ImpostorEnvironment ambiente = new ImpostorEnvironment();
 		agente.setConexiones(ambiente.getConexiones());
+		//Setear energía aleatoria
+		
+		System.out.println(ambiente.getEnvironmentState().toString());
 		
 		 SearchBasedAgentSimulator simulador = new SearchBasedAgentSimulator(ambiente, agente);
 		 

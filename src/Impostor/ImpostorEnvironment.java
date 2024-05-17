@@ -16,12 +16,12 @@ public class ImpostorEnvironment extends Environment {
 	
 	@Override
 	public Perception getPercept() {
+		//this.getEnvironmentState().moverTripulantes();
 		ImpostorPerception percepcion = new ImpostorPerception();
 		
 		int posicion = this.getEnvironmentState().getPosImpostor();
 		int tripulantes = this.getEnvironmentState().getTripulantesSala(posicion);
 		Boolean salaASabotear = this.getEnvironmentState().getSalaASabotear(posicion);
-		int[] salasAdyacentes = this.getEnvironmentState().getSalasAdyacentesSala(posicion);
 		Boolean global = false;
 		int[] salasConTripulantes = new int[14];
 		if(this.getEnvironmentState().getGlobalCooldown() == 0) {
@@ -34,9 +34,14 @@ public class ImpostorEnvironment extends Environment {
 		percepcion.setPosicion(posicion);
 		percepcion.setTripulantes(tripulantes);
 		percepcion.setSalaASabotear(salaASabotear);
-		percepcion.setSalasAdyacentes(salasAdyacentes);
 		percepcion.setGlobal(global);
 		percepcion.setSalasConTripulantes(salasConTripulantes);
+		
+		if(this.getEnvironmentState().getGlobalCooldown() == 0) {
+			this.getEnvironmentState().setGlobalCooldown(3);
+		} else {
+			this.getEnvironmentState().setGlobalCooldown(this.getEnvironmentState().getGlobalCooldown() - 1);
+		}
 		
 		return percepcion;
 	}
@@ -50,6 +55,11 @@ public class ImpostorEnvironment extends Environment {
 		if(energiaImpostor <= 0) {
 			return true;
 		} else return false;
+	}
+	
+	@Override
+    public String toString() {
+		return this.getEnvironmentState().toString();
 	}
 	
 	public int[][] getConexiones() {

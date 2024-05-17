@@ -8,7 +8,6 @@ public class ImpostorPerception extends Perception {
 	private int tripulantes;
 	private int posicion;
 	private Boolean salaASabotear;
-	private int[] salasAdyacentes; //6
 	private Boolean global;
 	private int[] salasConTripulantes;
 	private int energia;
@@ -26,10 +25,9 @@ public class ImpostorPerception extends Perception {
 		this.setPosicion(estadoAmbiente.getPosImpostor());
 		this.setTripulantes(estadoAmbiente.getTripulantesSala(this.posicion));
 		this.setSalaASabotear(estadoAmbiente.getSalaASabotear(this.posicion));
-		this.setSalasAdyacentes(estadoAmbiente.getSalasAdyacentesSala(this.posicion));
-		this.setGlobal(false); //Por ahora
-		this.setSalasConTripulantes(new int[14]); //Por ahora
-		
+		this.setGlobal(estadoAmbiente.getGlobal());
+		this.salasConTripulantes = new int[14];
+		if(this.global) this.setSalasConTripulantes(estadoAmbiente.getSalasConTripulantes());
 	}
 
 	public int getTripulantes() {
@@ -54,14 +52,6 @@ public class ImpostorPerception extends Perception {
 
 	public void setSalaASabotear(Boolean salaASabotear) {
 		this.salaASabotear = salaASabotear;
-	}
-
-	public int[] getSalasAdyacentes() {
-		return salasAdyacentes;
-	}
-
-	public void setSalasAdyacentes(int[] salasAdyacentes) {
-		this.salasAdyacentes = salasAdyacentes;
 	}
 
 	public Boolean getGlobal() {
